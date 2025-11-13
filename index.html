@@ -213,7 +213,7 @@
       statusMessage.className = 'status';
 
       // Simulated backend request
-      fetch('https://docs.google.com/spreadsheets/d/10lyUsm6nq0wY8DR-rck1uUzELVwWaov3mdURVQQ27yY/edit?gid=0#gid=0', {
+      fetch('https://script.google.com/macros/s/AKfycbypgmMWPDlDwb9awy-MxmE-_6Os3A6yJKnm0NMYqPYXLUYN-jo5Lc8XA3iyhET32TmMaw/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),
@@ -241,4 +241,5 @@
   </script>
 </body>
 </html>
+
 
