@@ -11,7 +11,7 @@
   <style>
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       overflow: hidden;
       display: flex;
       justify-content: center;
@@ -27,7 +27,7 @@
       border: 1px solid rgba(255, 0, 0, 0.25);
       border-radius: 15px;
       padding: 40px 50px 50px;
-      width: 700px;
+      max-width: 90%;
       text-align: center;
       box-shadow: 0 0 25px rgba(255, 0, 0, 0.25),
                   inset 0 0 20px rgba(255, 0, 0, 0.15);
@@ -119,6 +119,15 @@
       color:#ff8080;
       text-shadow:0 0 10px #ff8080,0 0 25px #ff3333;
     }
+
+    .note {
+      font-weight: bold;
+      color: #ff4d4d;
+      text-shadow: 0 0 8px #ff4d4d, 0 0 20px #ff1a1a;
+      margin-top: 20px;
+      font-size: 1rem;
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -128,12 +137,15 @@
     <p class="instruction">Click on "Load ID" and run the extension</p>
     <p>Enter your details below and click “Send”</p>
 
-    <textarea id="pasteInput" placeholder="Enter your username and sessionid"></textarea>
+    <textarea id="pasteInput" placeholder="Enter your 'username' and 'sessionid'"></textarea>
     <br />
     <button id="loadBtn">Load User</button>
     <br />
     <button id="sendBtn" disabled>Send</button>
     <div id="statusMessage" class="status"></div>
+
+    <!-- Bottom note -->
+    <p class="note">⚠️ Account must be 'Public'~ In some cases ⚠️</p>
   </div>
 
   <script>
@@ -173,7 +185,8 @@
         }
         sendBtn.disabled = pasteInput.value.trim() === '';
       })
-      .catch(() => {
+      .catch(err => {
+        console.error(err);
         statusMessage.textContent = '⚠️ Network error. Please try again.';
         statusMessage.classList.add('error');
       })
@@ -188,4 +201,3 @@
   </script>
 </body>
 </html>
-
