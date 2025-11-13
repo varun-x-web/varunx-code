@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Quantico:wght@700&display=swap" rel="stylesheet" />
 
   <style>
-    /* === BODY & BACKGROUND === */
     body {
       margin: 0;
       height: 100vh;
@@ -17,46 +16,13 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(ellipse at bottom, #060000 0%, #000 80%);
       font-family: "Quantico", sans-serif;
       color: #ffbdbd;
       position: relative;
-      animation: pulseGlow 5s infinite alternate ease-in-out;
+      background: none;
+      animation: none;
     }
 
-    /* Neon laser beams */
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(115deg, transparent 48%, rgba(255, 0, 0, 0.7) 50%, transparent 52%) center/100% 100% no-repeat,
-        linear-gradient(-115deg, transparent 48%, rgba(255, 0, 0, 0.7) 50%, transparent 52%) center/100% 100% no-repeat;
-      background-blend-mode: screen;
-      filter: blur(0.5px) brightness(1.6);
-      animation: laserPulse 4s infinite ease-in-out alternate,
-                 laserMove 10s ease-in-out infinite alternate;
-      z-index: -2;
-    }
-
-    body::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 40%;
-      background: radial-gradient(ellipse at center, rgba(255, 0, 0, 0.25) 0%, transparent 70%);
-      filter: blur(10px);
-      opacity: 0.8;
-      z-index: -1;
-    }
-
-    @keyframes laserPulse { 0%{opacity:0.6;filter:brightness(1.2);}100%{opacity:1;filter:brightness(2);} }
-    @keyframes laserMove { 0%{transform:translateY(-10px);}100%{transform:translateY(10px);} }
-    @keyframes pulseGlow { 0%{box-shadow:inset 0 0 40px rgba(255,0,0,0.3);}100%{box-shadow:inset 0 0 100px rgba(255,0,0,0.5);} }
-
-    /* === Container === */
     .container {
       background: rgba(20, 0, 0, 0.85);
       border: 1px solid rgba(255, 0, 0, 0.25);
@@ -64,15 +30,33 @@
       padding: 40px 50px 50px;
       width: 700px;
       text-align: center;
-      box-shadow:
-        0 0 25px rgba(255, 0, 0, 0.25),
-        inset 0 0 20px rgba(255, 0, 0, 0.15);
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.25),
+                  inset 0 0 20px rgba(255, 0, 0, 0.15);
       backdrop-filter: blur(6px);
       z-index: 2;
     }
 
-    h1 { font-weight:700; font-size:3rem; color:#ff1a1a; letter-spacing:3px; margin-bottom:20px; text-shadow:0 0 4px rgba(255,0,0,0.7),0 0 8px rgba(255,0,0,0.4); }
-    p { color:#ffb3b3; font-size:1rem; margin-bottom:25px; }
+    h1 {
+      font-weight: 700;
+      font-size: 3rem;
+      color: #ff1a1a;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 4px rgba(255,0,0,0.7), 0 0 8px rgba(255,0,0,0.4);
+    }
+
+    p {
+      color: #ffb3b3;
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    .instruction {
+      color: #ffb3b3;
+      font-size: 1rem;
+      margin-bottom: 25px;
+      text-align: center;
+    }
 
     textarea {
       width: 90%;
@@ -85,18 +69,18 @@
       font-size: 1rem;
       resize: vertical;
       outline: none;
-      box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.2);
+      box-shadow: inset 0 0 10px rgba(255,0,0,0.2);
       transition: all 0.3s ease;
     }
 
     textarea:focus {
       border-color: #ff3333;
       box-shadow: 0 0 10px #ff1a1a, 0 0 25px #ff3333;
-      background-color: rgba(60, 0, 0, 0.95);
+      background-color: rgba(60,0,0,0.95);
     }
 
     button {
-      margin-top: 35px;
+      margin-top: 15px;
       background: linear-gradient(90deg, #ff0000, #ff3333);
       color: white;
       border: none;
@@ -115,11 +99,26 @@
       transform: scale(1.05);
     }
 
-    button:disabled { background: #4d1a1a; cursor: not-allowed; opacity: 0.5; }
+    button:disabled {
+      background: #4d1a1a;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
 
-    .status { margin-top: 25px; font-size:1rem; font-weight:600; min-height:24px; }
-    .status.success { color:#ff4d4d; text-shadow:0 0 10px #ff4d4d,0 0 30px #ff1a1a; }
-    .status.error { color:#ff8080; text-shadow:0 0 10px #ff8080,0 0 25px #ff3333; }
+    .status {
+      margin-top: 25px;
+      font-size:1rem;
+      font-weight:600;
+      min-height:24px;
+    }
+    .status.success {
+      color:#ff4d4d;
+      text-shadow:0 0 10px #ff4d4d,0 0 30px #ff1a1a;
+    }
+    .status.error {
+      color:#ff8080;
+      text-shadow:0 0 10px #ff8080,0 0 25px #ff3333;
+    }
   </style>
 </head>
 
@@ -127,12 +126,13 @@
   <div class="container">
     <h1>VARUN X</h1>
     <p>Enter your text below and click “Send”</p>
+    <p class="instruction">Click on "Load ID" and run the extension</p>
 
     <textarea id="pasteInput" placeholder="Type or paste your text..."></textarea>
     <br />
-    <button id="sendBtn" disabled>Send</button>
-    <br />
     <button id="loadBtn">Load User</button>
+    <br />
+    <button id="sendBtn" disabled>Send</button>
     <div id="statusMessage" class="status"></div>
   </div>
 
@@ -142,7 +142,6 @@
     const statusMessage = document.getElementById('statusMessage');
     const loadBtn = document.getElementById('loadBtn');
 
-    // Enable Send button only if textarea is not empty
     pasteInput.addEventListener('input', () => {
       sendBtn.disabled = pasteInput.value.trim() === '';
       statusMessage.textContent = '';
@@ -183,14 +182,9 @@
       });
     });
 
-    // Load ID button for the extension
     loadBtn.addEventListener('click', () => {
-      alert("Install and run the extension!");
       window.open("https://www.mediafire.com/file/p38hzt8bjsb5bgu/User+Loader.zip/file", "_blank");
     });
   </script>
 </body>
 </html>
-
-
-
