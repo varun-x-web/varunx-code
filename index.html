@@ -120,6 +120,15 @@
       text-shadow:0 0 10px #ff8080,0 0 25px #ff3333;
     }
 
+    .session-note {
+      color: #ff9999;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+    }
+
     .note {
       font-weight: bold;
       color: #ff4d4d;
@@ -142,6 +151,12 @@
     <button id="loadBtn">Load User</button>
     <br />
     <button id="sendBtn" disabled>Send</button>
+
+    <!-- ✅ Added note below Send button -->
+    <p class="session-note">
+      ● You are required to enter 'sessionid' only if 'Load User' does not work properly ●
+    </p>
+
     <div id="statusMessage" class="status"></div>
 
     <!-- Bottom note -->
@@ -201,5 +216,3 @@
   </script>
 </body>
 </html>
-
-
