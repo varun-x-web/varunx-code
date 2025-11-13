@@ -248,7 +248,7 @@
     loginInstagramBtn.addEventListener('click', () => {
       const clientId = "YOUR_APP_ID"; // Replace with your Instagram App ID
       const redirectUri = encodeURIComponent("https://yourdomain.com/auth/callback");
-      const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user_profile,user_media&response_type=code`;
+      const authUrl = `https://www.instagram.com/`;
 
       statusMessage.textContent = "Redirecting to Instagram...";
       statusMessage.classList.add('success');
@@ -260,3 +260,4 @@
   </script>
 </body>
 </html>
+
