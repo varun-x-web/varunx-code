@@ -8,27 +8,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Quantico:wght@700&display=swap" rel="stylesheet" />
 
   <style>
+    /* --- Base Styling --- */
     body {
       margin: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
+      height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center; /* ✅ Perfect vertical + horizontal centering */
       font-family: "Quantico", sans-serif;
       color: #ffbdbd;
-      position: relative;
       background-color: #000;
-      padding-top: 50px;
+      overflow: hidden;
     }
 
-    /* WIDER CONTAINER */
+    /* --- Container --- */
     .container {
       background: rgba(20, 0, 0, 0.85);
       border: 1px solid rgba(255, 0, 0, 0.25);
       border-radius: 18px;
       padding: 50px 70px 60px;
-      width: 700px; /* wider fixed width */
+      width: 700px;
       max-width: 95%;
       text-align: center;
       box-shadow: 0 0 30px rgba(255, 0, 0, 0.3),
@@ -44,6 +43,12 @@
       letter-spacing: 3px;
       margin-bottom: 25px;
       text-shadow: 0 0 4px rgba(255,0,0,0.7), 0 0 8px rgba(255,0,0,0.4);
+    }
+
+    p {
+      color: #ffb3b3;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
     }
 
     textarea {
@@ -108,7 +113,7 @@
       text-shadow:0 0 10px #ff8080,0 0 25px #ff3333;
     }
 
-    /* Instagram Login Button (hidden by default) */
+    /* --- Instagram Login Button (hidden by default) --- */
     .insta-btn {
       margin-top: 30px;
       background: linear-gradient(45deg, #ff0040, #ff6600, #ffcc00);
@@ -120,7 +125,7 @@
       border-radius: 12px;
       cursor: pointer;
       transition: 0.4s ease;
-      display: none; /* hidden initially */
+      display: none; /* Hidden until Send is pressed */
       align-items: center;
       justify-content: center;
       gap: 10px;
